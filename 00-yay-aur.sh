@@ -25,11 +25,11 @@ if ! pacman -Qq base-devel &> /dev/null; then
 fi
 
 # Create a temporary directory and ensure it's deleted on script exit
-temp_dir=$(mktemp -d)
+sudo -u "${SUDO_USER:-$USER}" temp_dir=$(mktemp -d)
 trap 'rm -rf -- "$temp_dir"' EXIT
 
 # Clone the yay repository
-if ! git clone https://aur.archlinux.org/yay.git "$temp_dir/yay"; then
+if ! sudo -u "${SUDO_USER:-$USER}" git clone https://aur.archlinux.org/yay.git "$temp_dir/yay"; then
   echo "Error: Failed to clone yay repository." >&2
   exit 1
 fi
@@ -37,7 +37,7 @@ fi
 cd "$temp_dir/yay" || (echo "Error: Failed to cd into yay repo" >&2; exit 1)
 
 # Make and install yay package
-if ! makepkg -si; then
+if ! sudo -u "${SUDO_USER:-$USER}" makepkg -si; then
   echo "Error: Failed to make and install yay package." >&2
   exit 1
 fi
