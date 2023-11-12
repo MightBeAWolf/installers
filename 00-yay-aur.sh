@@ -25,7 +25,7 @@ if ! pacman -Qq base-devel &> /dev/null; then
 fi
 
 # Create a temporary directory and ensure it's deleted on script exit
-sudo -u "${SUDO_USER:-$USER}" temp_dir=$(mktemp -d)
+temp_dir=$(sudo -u "${SUDO_USER:-$USER}" mktemp -d)
 trap 'rm -rf -- "$temp_dir"' EXIT
 
 # Clone the yay repository
