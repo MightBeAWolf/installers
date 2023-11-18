@@ -1,4 +1,6 @@
 #!/bin/bash
+# Make sure that the cargo binary is in the path
+export PATH="${PATH}:/home/${SUDO_USER:-${USER}}/.cargo/bin"
 if ! which cargo >/dev/null 2>/dev/null; then 
   echo "Cargo is not installed."
   echo "Please install Cargo before running this script"
@@ -19,8 +21,6 @@ cli_utilities=(
  "bottom:btm"
 )
 
-# Make sure that the cargo binary is in the path
-export PATH="${PATH}:/home/${SUDO_USER:-${USER}}/.cargo/bin"
 for util in "${cli_utilities[@]}"; do
   package="${util%%:*}"
   binary="${util##*:}"
