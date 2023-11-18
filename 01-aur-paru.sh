@@ -11,6 +11,7 @@ if which cargo >/dev/null 2>/dev/null; then
       echo "Installed ${package}"
     else
       echo "Failed to install ${package}"
+      exit 1
     fi
   done
 else

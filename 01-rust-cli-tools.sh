@@ -24,6 +24,7 @@ if which cargo >/dev/null 2>/dev/null; then
       echo "Installed ${util}"
     else
       echo "Failed to install ${util}"
+      exit 1
     fi
   done
 else
