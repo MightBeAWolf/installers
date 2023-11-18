@@ -15,6 +15,8 @@ cli_utilities=(
  "bottom"
 )
 
+# Make sure that the cargo binary is in the path
+export PATH="${PATH}:/home/${SUDO_USER:-${USER}}/.cargo/bin"
 if which cargo >/dev/null 2>/dev/null; then 
   for util in "${cli_utilities[@]}"; do
     echo "Installing $util"

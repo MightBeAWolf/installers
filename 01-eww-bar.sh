@@ -1,6 +1,9 @@
 #!/bin/bash
 
 
+# Make sure that the cargo binary is in the path
+export PATH="${PATH}:/home/${SUDO_USER:-${USER}}/.cargo/bin"
+
 rust_toolchain="$(rustup show active-toolchain)"
 if [[ -z "${rust_toolchain}" ]]; then
   rustup default stable
