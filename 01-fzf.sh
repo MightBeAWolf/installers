@@ -78,7 +78,7 @@ else
 fi
 
 log "Running fzf install script"
-if "${INSTALL_DIR}/install"; then
+if "${INSTALL_DIR}/install" --all --no-update-rc; then
   log "fzf installation completed successfully"
 else
   error_log "fzf installation failed"
