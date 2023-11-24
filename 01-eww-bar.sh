@@ -25,17 +25,16 @@ if ! git clone "${repo_url:?}"; then
 fi
 cd eww
 
-# Detect the display server and build accordingly
-if [[ $XDG_SESSION_TYPE == "x11" ]]; then
-    echo "Building eww for X11..."
-    cargo build --release --no-default-features --features x11
-elif [[ $XDG_SESSION_TYPE == "wayland" ]]; then
+case "${XDG_SESSION_TYPE:-wayland}" in 
+  wayland)
     echo "Building eww for Wayland..."
     cargo build --release --no-default-features --features=wayland
-else
-    echo "Unknown session type. Defaulting to X11 build."
+    ;;
+  x11 | *)
+    echo "Building eww for X11..."
     cargo build --release --no-default-features --features x11
-fi
+    ;;
+esac
 
 if ! cp --no-preserve=ownership ./target/release/eww /usr/bin/eww; then 
   echo "Failed to copy the from ./target/release/eww to /usr/bin/eww" >&2
