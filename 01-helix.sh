@@ -12,6 +12,13 @@ trap cleanup EXIT ERR INT TERM
 # Create a temporary directory
 TMP_DIR=$(mktemp -d -t helix-install-XXXXXXXXXX)
 
+# If the user's .cargo bin directory exists,
+# but doesn't exist in the path, update the path.
+if [[ -d "${HOME}/.cargo/bin" ]] \
+&& ! grep -qP "\b:?${HOME}/.cargo/bin:?\b" <<< "${PATH}"; then 
+    export PATH="${HOME}/.cargo/bin:${PATH}"
+fi
+
 # Check for dependencies
 dependencies=("git" "cargo" "g++")
 for dep in "${dependencies[@]}"; do 
