@@ -42,6 +42,9 @@ LATEST_RELEASE="$( git ls-remote -q --tags \
     | awk '{print $2}')"
 git checkout "${LATEST_RELEASE:?}"
 
+# Temporary fix for https://github.com/helix-editor/helix/pull/8932
+sed -i '1s/^/use-grammars = { except = ["gemini"] }\n/' languages.toml
+
 # Build and install Helix from source
 if ! cargo install --path "./helix-term" --locked; then 
     echo "Failed to install helix!"
