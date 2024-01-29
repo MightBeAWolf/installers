@@ -41,7 +41,7 @@ if [ -z "$font_exists" ]; then
         # Unzip and install the font
         echo "Installing FiraCode Nerd Font..."
         mkdir -p "$FONT_DIR"
-        unzip -q "$TMP_DIR/$FONT_ZIP" -d "$FONT_DIR"
+        unzip -o -q "$TMP_DIR/$FONT_ZIP" -d "$FONT_DIR"
         rm -f "$TMP_DIR/$FONT_ZIP" # Remove the zip file after extracting
 
         # Rebuild font cache
@@ -56,9 +56,17 @@ else
     echo "FiraCode Nerd Font is already installed."
 fi
 
+echo "Downloading Starship Installer"
+if ! curl -fsSL https://starship.rs/install.sh > "${TMP_DIR}/installer.sh"; then
+    echo "Error: Starship installer failed to download." >&2
+    exit 1
+fi
+chmod +x "${TMP_DIR}/installer.sh"
+
 # Install Starship
 echo "Installing Starship terminal prompt..."
-if sh -c "$(curl -fsSL https://starship.rs/install.sh)"; then
+mkdir -p "${HOME}/.local/bin"
+if "${TMP_DIR}/installer.sh" -y -b "${HOME}/.local/bin"; then
     echo "Starship installed successfully!"
     echo "Add the following line to your shell configuration file (e.g., ~/.bashrc, ~/.zshrc):"
     echo 'eval "$(starship init bash)"'
