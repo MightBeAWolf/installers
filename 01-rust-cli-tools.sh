@@ -15,12 +15,18 @@ cli_utilities=(
  "bat"
  "procs"
  "bandwhich"
+ "trippy:trip"
+ "xsv"
+ "funzzy:fzz"
+ "rargs"
+ "skim:sk"
  "tealdeer:tldr"
  "git-delta:delta"
  "sd"
  "bottom:btm"
 )
 
+failed_to_install=()
 for util in "${cli_utilities[@]}"; do
   package="${util%%:*}"
   binary="${util##*:}"
@@ -30,7 +36,15 @@ for util in "${cli_utilities[@]}"; do
       echo "Installed ${package:?}"
     else
       echo "Failed to install ${package:?}"
-      exit 1
+      failed_to_install+=(${package:?})
     fi
   fi
 done
+
+if [[ "${#failed_to_install[@]}" -gt 0 ]]; then
+  echo "Failed to install:" >&2
+  for package in "${failed_to_install[@]}"; do
+    echo -e "\t${package:?}" >&2
+  done
+  exit 1
+fi
