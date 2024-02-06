@@ -23,6 +23,7 @@ cli_utilities=(
  "tealdeer:tldr"
  "git-delta:delta"
  "sd"
+ "mdcat"
  "bottom:btm"
 )
 
